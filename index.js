@@ -27,22 +27,24 @@ async function main() {
     .readFileSync(markers, "utf8")
     .replace(/[^\x00-\x7F]/g, ""); // remove all non-ascii characters, unfortunately including emojis 😢
 
-  console.info(`Read ${inputCsv.length} chapters from csv`);
-
   const currentTags = await NodeID3.read(inputMp3);
   const duration = getDuration(inputMp3);
 
   if (currentTags.chapter || currentTags.tableOfContents) {
     throw new Error("File already has chapter markers");
   }
-  const chapterTag = parse(inputCsv, {
+
+  const chapters = parse(inputCsv, {
     columns: true,
     delimiter: "\t",
     skip_empty_lines: true,
-  })
+  });
+  console.info(`Read ${chapters.length} chapters from csv`);
+
+  const chapterTag = chapters
     .map((record, i) => ({
       elementID: `chap${i}`,
-      startTimeMs: parseTime(record.Start),
+      startTimeMs: formatStartTime(parseTime(record.Start)),
       tags: {
         title: record.Name,
       },
@@ -52,6 +54,34 @@ async function main() {
       endTimeMs:
         i === records.length - 1 ? duration : records[i + 1].startTimeMs,
     }));
+
+  const comment = chapters
+    .map(
+      (record, i) => `${formatTime(parseTime(record.Start))}: ${record.Name}`
+    )
+    .join("\n");
+  console.log(comment);
+
+  const totalTags = {
+    chapter: chapterTag,
+    comment: {
+      language: "nld",
+      text: comment,
+    },
+    unsynchronisedLyrics: {
+      language: "nld",
+      text: comment,
+    },
+    tableOfContents: [
+      {
+        elementID: "toc1",
+        isOrdered: true,
+        elements: chapterTag.map(({ elementID }) => elementID),
+      },
+    ],
+  };
+
+  console.info(`Writing ${chapterTag.length} chapters to mp3`);
 
   const success = NodeID3.update(totalTags, inputMp3);
   if (!success) {
@@ -65,13 +95,13 @@ function parseTime(time) {
   const times = time.split(":");
   let hours = 0;
   let minutes = 0;
+  // only minutes, seconds and milliseconds
   if (times.length === 2) {
     minutes = parseInt(times[0]);
-    // only minutes, seconds and milliseconds
   } else if (times.length === 3) {
+    // hours, minutes, seconds and milliseconds
     hours = parseInt(times[0]);
     minutes = parseInt(times[1]);
-    // hours, minutes, seconds and milliseconds
   } else {
     throw new Error("Invalid time format");
   }
@@ -79,7 +109,18 @@ function parseTime(time) {
   const seconds = parseInt(s);
   const milliseconds = parseInt(ms);
 
+  return { hours, minutes, seconds, milliseconds };
+}
+
+function formatStartTime({ hours, minutes, seconds, milliseconds }) {
   return hours * 3600000 + minutes * 60000 + seconds * 1000 + milliseconds;
+}
+
+function formatTime({ hours, minutes, seconds }) {
+  const h = hours.toString().padStart(2, "0");
+  const m = minutes.toString().padStart(2, "0");
+  const s = seconds.toString().padStart(2, "0");
+  return `${h}:${m}:${s}`;
 }
 
 function getDuration(filePath) {
