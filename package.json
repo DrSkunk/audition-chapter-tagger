@@ -34,5 +34,8 @@
     "get-mp3-duration": "^1.0.0",
     "node-id3": "^0.2.3",
     "yargs": "^17.2.1"
+  },
+  "devDependencies": {
+    "nexe": "^4.0.0-beta.19"
   }
 }
