@@ -9,7 +9,24 @@
     "build:dependencies": "nexe --build",
     "build": "nexe --build"
   },
-  "keywords": [],
+  "bin": {
+    "audition-chapter-tagger": "index.js"
+  },
+  "homepage": "https://github.com/DrSkunk/audition-chapter-tagger",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/drskunk/audition-chapter-tagger.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DrSkunk/audition-chapter-tagger/issues"
+  },
+  "keywords": [
+    "adobe",
+    "podcast",
+    "mp3",
+    "id3",
+    "chaptering"
+  ],
   "author": "Sebastiaan Jansen - DrSkunk",
   "license": "ISC",
   "dependencies": {
