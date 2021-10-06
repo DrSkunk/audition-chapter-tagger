@@ -1,0 +1,21 @@
+{
+  "name": "audition-chapter-tagger",
+  "version": "1.0.0",
+  "description": "Add Adobe Audition chaptering tags to ID3 tags of mp3 files",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:dependencies": "nexe --build",
+    "build": "nexe --build"
+  },
+  "keywords": [],
+  "author": "Sebastiaan Jansen - DrSkunk",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parse": "^4.16.3",
+    "get-mp3-duration": "^1.0.0",
+    "node-id3": "^0.2.3",
+    "yargs": "^17.2.1"
+  }
+}
