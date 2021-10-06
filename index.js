@@ -11,7 +11,6 @@ const { hideBin } = require("yargs/helpers");
 async function main() {
   console.info("");
   const { markers, mp3 } = yargs(hideBin(process.argv))
-    .description("Generate a podcast from a CSV file")
     .option("markers", {
       type: "string",
       description: "Path to Adobe Audition Markers",

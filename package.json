@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:dependencies": "nexe --build",
-    "build": "nexe --build"
+    "build:windows": "nexe -t win32-x86-14.15.3 -o audition-chapter-tagger-win.exe",
+    "build:macos": "nexe -t macos-14.15.3 -o audition-chapter-tagger-macos",
+    "build:linux": "nexe -t  linux-x64-14.15.3 -o audition-chapter-tagger-linux"
   },
   "bin": {
     "audition-chapter-tagger": "index.js"
