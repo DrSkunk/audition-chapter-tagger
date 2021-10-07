@@ -116,3 +116,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# example files
+examples/*
+
+# build folder
+build/*

@@ -3,14 +3,14 @@ const fs = require("fs");
 const parse = require("csv-parse/lib/sync");
 const NodeID3 = require("node-id3");
 const getMP3Duration = require("get-mp3-duration");
+const sharp = require("sharp");
 const yargs = require("yargs/yargs");
 const { hideBin } = require("yargs/helpers");
 
 // Source for chaptering info: https://auphonic.com/blog/2013/07/03/chapter-marks-and-enhanced-podcasts/
 
 async function main() {
-  console.info("");
-  const { markers, mp3 } = yargs(hideBin(process.argv))
+  const { markers, mp3, cover } = yargs(hideBin(process.argv))
     .option("markers", {
       type: "string",
       description: "Path to Adobe Audition Markers",
@@ -18,6 +18,11 @@ async function main() {
     .option("mp3", {
       type: "string",
       description: "Path to mp3 file that needs chaptering",
+    })
+    .option("cover", {
+      type: "string",
+      description:
+        "Path to an image file to be used as cover art, will be automatically resized to 600x600",
     })
     .demandOption(["markers", "mp3"])
     .parse();
@@ -82,6 +87,18 @@ async function main() {
   };
 
   console.info(`Writing ${chapterTag.length} chapters to mp3`);
+
+  if (cover) {
+    console.info("Adding cover image");
+    totalTags.image = {
+      mime: "image/png",
+      type: {
+        id: 3,
+        name: "front cover",
+      },
+      imageBuffer: await sharp(cover).resize(600, 600).png().toBuffer(),
+    };
+  }
 
   const success = NodeID3.update(totalTags, inputMp3);
   if (!success) {

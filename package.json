@@ -6,9 +6,11 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:windows": "nexe -t win32-x86-14.15.3 -o audition-chapter-tagger-win.exe",
-    "build:macos": "nexe -t macos-14.15.3 -o audition-chapter-tagger-macos",
-    "build:linux": "nexe -t  linux-x64-14.15.3 -o audition-chapter-tagger-linux"
+    "build": "npm run build:clean && npm run build:windows && npm run build:macos && npm run build:linux",
+    "build:clean": "rimraf build",
+    "build:windows": "nexe -t win32-x86-14.15.3 -o build/audition-chapter-tagger_v$(project-version)_win.exe",
+    "build:macos": "nexe -t macos-14.15.3 -o build/audition-chapter-tagger_v$(project-version)_macos",
+    "build:linux": "nexe -t  linux-x64-14.15.3 -o build/audition-chapter-tagger_v$(project-version)_linux"
   },
   "bin": {
     "audition-chapter-tagger": "index.js"
@@ -34,9 +36,12 @@
     "csv-parse": "^4.16.3",
     "get-mp3-duration": "^1.0.0",
     "node-id3": "^0.2.3",
+    "sharp": "^0.29.1",
     "yargs": "^17.2.1"
   },
   "devDependencies": {
-    "nexe": "^4.0.0-beta.19"
+    "nexe": "^4.0.0-beta.19",
+    "project-version": "^2.0.0",
+    "rimraf": "^3.0.2"
   }
 }
