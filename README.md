@@ -16,6 +16,8 @@ Options:
   --version  Show version number                                       [boolean]
   --markers  Path to Adobe Audition Markers                  [string] [required]
   --mp3      Path to mp3 file that needs chaptering          [string] [required]
+  --cover    Path to an image file to be used as cover art, will be
+             automatically resized to 600x600                           [string]
 ```
 
 ## Build as standalone
