@@ -50,6 +50,15 @@ async function main() {
   });
   console.info(`Read ${chapters.length} chapters from csv`);
 
+  if (formatStartTime(parseTime(chapters[0].Start)) > 0) {
+    console.info("Adding intro chapter");
+    const intro = {
+      Name: "Intro",
+      Start: "0:00.000",
+    };
+    chapters.unshift(intro);
+  }
+
   const chapterTag = chapters
     .map((record, i) => ({
       elementID: `chap${i}`,
@@ -63,20 +72,6 @@ async function main() {
       endTimeMs:
         i === records.length - 1 ? duration : records[i + 1].startTimeMs,
     }));
-
-  if (chapterTag[0].startTimeMs > 0) {
-    console.info("Adding intro chapter");
-    const intro = {
-      elementID: "intro",
-      startTimeMs: 0,
-      endTimeMs: chapterTag[0].startTimeMs,
-      tags: {
-        title: "Intro",
-      },
-    };
-    chapterTag.unshift(intro);
-  }
-  console.log(chapterTag);
 
   const comment = chapters
     .map(
