@@ -20,12 +20,13 @@ Perseverance heeft zijn eerste kakske gelegd	10:40.290	0:00.000	decimal	Cue
 
 ```
 Options:
-  --help     Show help                                                 [boolean]
-  --version  Show version number                                       [boolean]
-  --markers  Path to Adobe Audition Markers                  [string] [required]
-  --mp3      Path to mp3 file that needs chaptering          [string] [required]
-  --cover    Path to an image file to be used as cover art, will be
-             automatically resized to 600x600                           [string]
+  --help       Show help                                               [boolean]
+  --version    Show version number                                     [boolean]
+  --markers    Path to Adobe Audition Markers                [string] [required]
+  --mp3        Path to mp3 file that needs chaptering        [string] [required]
+  --cover      Path to an image file to be used as cover art, will be
+               automatically resized to 600x600                         [string]
+  --overwrite  Remove existing tags and overwrite them                 [boolean]
 ```
 
 ## Build as standalone
