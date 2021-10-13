@@ -10,7 +10,7 @@ const { hideBin } = require("yargs/helpers");
 // Source for chaptering info: https://auphonic.com/blog/2013/07/03/chapter-marks-and-enhanced-podcasts/
 
 async function main() {
-  const { markers, mp3, cover } = yargs(hideBin(process.argv))
+  const { markers, mp3, cover, overwrite } = yargs(hideBin(process.argv))
     .option("markers", {
       type: "string",
       description: "Path to Adobe Audition Markers",
@@ -24,6 +24,10 @@ async function main() {
       description:
         "Path to an image file to be used as cover art, will be automatically resized to 600x600",
     })
+    .option("overwrite", {
+      type: "boolean",
+      description: "Remove existing tags and overwrite them",
+    })
     .demandOption(["markers", "mp3"])
     .parse();
 
@@ -35,7 +39,7 @@ async function main() {
   const currentTags = await NodeID3.read(inputMp3);
   const duration = getDuration(inputMp3);
 
-  if (currentTags.chapter || currentTags.tableOfContents) {
+  if (!overwrite && (currentTags.chapter || currentTags.tableOfContents)) {
     throw new Error("File already has chapter markers");
   }
 
@@ -60,12 +64,27 @@ async function main() {
         i === records.length - 1 ? duration : records[i + 1].startTimeMs,
     }));
 
+  if (chapterTag[0].startTimeMs > 0) {
+    console.info("Adding intro chapter");
+    const intro = {
+      elementID: "intro",
+      startTimeMs: 0,
+      endTimeMs: chapterTag[0].startTimeMs,
+      tags: {
+        title: "Intro",
+      },
+    };
+    chapterTag.unshift(intro);
+  }
+  console.log(chapterTag);
+
   const comment = chapters
     .map(
       (record, i) => `${formatTime(parseTime(record.Start))}: ${record.Name}`
     )
     .join("\n");
-  console.log(comment);
+  console.info("Writing the following chapter tags:");
+  console.info(comment);
 
   const totalTags = {
     chapter: chapterTag,
@@ -100,7 +119,13 @@ async function main() {
     };
   }
 
-  const success = NodeID3.update(totalTags, inputMp3);
+  let success;
+  if (overwrite) {
+    success = NodeID3.write(totalTags, inputMp3);
+  } else {
+    success = NodeID3.update(totalTags, inputMp3);
+  }
+
   if (!success) {
     throw new Error("Failed to write ID3 tags");
   }
