@@ -122,3 +122,6 @@ examples/*
 
 # build folder
 build/*
+
+# example folder
+example/*

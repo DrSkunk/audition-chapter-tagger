@@ -27,6 +27,8 @@ Options:
   --cover      Path to an image file to be used as cover art, will be
                automatically resized to 600x600                         [string]
   --overwrite  Remove existing tags and overwrite them                 [boolean]
+  --title      Add title                                                [string]
+  --artist     Add artist                                               [string]
 ```
 
 ## Build as standalone

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "npm run build:clean && npm run build:windows && npm run build:macos && npm run build:linux",
     "build:clean": "rimraf build",
     "build:windows": "nexe -t win32-x86-14.15.3 -o build/audition-chapter-tagger_v$(project-version)_win.exe",
@@ -34,7 +34,10 @@
   "license": "ISC",
   "dependencies": {
     "csv-parse": "^4.16.3",
+    "ffprobe": "^1.1.2",
+    "ffprobe-static": "^3.0.0",
     "get-mp3-duration": "^1.0.0",
+    "jest": "^27.3.1",
     "node-id3": "^0.2.3",
     "sharp": "^0.29.1",
     "yargs": "^17.2.1"
