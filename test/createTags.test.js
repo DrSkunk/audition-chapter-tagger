@@ -17,7 +17,7 @@ test("ffmpeg tagging", async () => {
     mp3Buffer,
     overwrite: false,
     markersText,
-    title: "Test",
+    title: "Never Gonna Give You Up",
     artist: "Rick Astley",
     cover: undefined,
   });

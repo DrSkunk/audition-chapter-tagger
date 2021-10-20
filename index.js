@@ -40,11 +40,14 @@ async function main() {
     .demandOption(["markers", "mp3"])
     .parse();
 
-  const mp3Buffer = await fs.promises.readFile(mp3);
   const markersText = fs.readFileSync(markers, "utf8");
+  const outputName = `${mp3.replace(/\.mp3$/, "")}-chapters.mp3`;
+
+  console.log(`Writing to ${outputName}`);
+  fs.copyFileSync(mp3, outputName);
 
   const totalTags = await createTags({
-    mp3Buffer,
+    mp3File: mp3,
     overwrite,
     markersText,
     title,
@@ -54,16 +57,13 @@ async function main() {
 
   let success;
   if (overwrite) {
-    success = NodeID3.write(totalTags, mp3Buffer);
+    success = NodeID3.write(totalTags, outputName);
   } else {
-    success = NodeID3.update(totalTags, mp3Buffer);
+    success = NodeID3.update(totalTags, outputName);
   }
-  const outputName = `${mp3.replace(/\.mp3$/, "")}-chapters.mp3`;
-  console.log(`Writing to ${outputName}`);
   if (!success) {
     throw new Error("Failed to write ID3 tags");
   }
-  await fs.promises.writeFile(outputName, mp3Buffer);
   console.info("Successfully wrote ID3 tags");
 }
 main().catch((err) => console.error(err));
