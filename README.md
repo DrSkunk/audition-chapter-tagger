@@ -36,15 +36,18 @@ Perseverance heeft zijn eerste kakske gelegd	10:40.290	0:00.000	decimal	Cue
 
 ```
 Options:
-  --help       Show help                                               [boolean]
-  --version    Show version number                                     [boolean]
-  --markers    Path to Adobe Audition Markers                [string] [required]
-  --mp3        Path to mp3 file that needs chaptering        [string] [required]
-  --cover      Path to an image file to be used as cover art, will be
-               automatically resized to 600x600                         [string]
-  --overwrite  Remove existing tags and overwrite them                 [boolean]
-  --title      Add title                                                [string]
-  --artist     Add artist                                               [string]
+      --help                 Show help                                 [boolean]
+      --version              Show version number                       [boolean]
+  -m, --markers, --chapters  Path to Adobe Audition Markers  [string] [required]
+  -i, --mp3                  Path to mp3 file that needs chaptering
+                                                             [string] [required]
+  -c, --cover                Path to an image file to be used as cover art, will
+                             be automatically resized to 600x600        [string]
+      --overwrite            Remove existing tags and overwrite them   [boolean]
+  -t, --title                Add title                                  [string]
+  -a, --artist               Add artist                                 [string]
+  -l, --language             Language of the chapters. Defaults to nld. Must be
+                             iso639-2                                   [string]
 ```
 
 ## Build as standalone

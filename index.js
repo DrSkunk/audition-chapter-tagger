@@ -9,18 +9,21 @@ const { createTags } = require("./lib/createTags");
 // Source for chaptering info: https://auphonic.com/blog/2013/07/03/chapter-marks-and-enhanced-podcasts/
 
 async function main() {
-  const { markers, mp3, cover, title, artist, overwrite } = yargs(
+  const { markers, mp3, cover, title, artist, overwrite, language } = yargs(
     hideBin(process.argv)
   )
     .option("markers", {
+      alias: ["m", "chapters"],
       type: "string",
       description: "Path to Adobe Audition Markers",
     })
     .option("mp3", {
+      alias: ["i"],
       type: "string",
       description: "Path to mp3 file that needs chaptering",
     })
     .option("cover", {
+      alias: ["c"],
       type: "string",
       description:
         "Path to an image file to be used as cover art, will be automatically resized to 600x600",
@@ -30,12 +33,20 @@ async function main() {
       description: "Remove existing tags and overwrite them",
     })
     .option("title", {
+      alias: ["t"],
       type: "string",
       description: "Add title",
     })
     .option("artist", {
+      alias: ["a"],
       type: "string",
       description: "Add artist",
+    })
+    .option("language", {
+      alias: ["l"],
+      type: "string",
+      description:
+        "Language of the chapters. Defaults to nld. Must be iso639-2",
     })
     .demandOption(["markers", "mp3"])
     .parse();
@@ -53,6 +64,7 @@ async function main() {
     title,
     artist,
     cover,
+    language,
   });
 
   let success;

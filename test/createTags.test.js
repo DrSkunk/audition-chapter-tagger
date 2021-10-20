@@ -29,3 +29,32 @@ test("ffmpeg tagging", async () => {
     "Second and last chapter in the list"
   );
 });
+
+test("language tag", async () => {
+  const mp3File = path.resolve("test/file_example_MP3_700KB.mp3");
+  const markersText = await fs.readFile(
+    path.resolve("test/example_markers.csv"),
+    "utf-8"
+  );
+
+  const dutchTags = await createTags({
+    mp3File,
+    overwrite: false,
+    markersText,
+    cover: undefined,
+  });
+
+  expect(dutchTags.comment.language).toBe("nld");
+  expect(dutchTags.unsynchronisedLyrics.language).toBe("nld");
+
+  const englishTags = await createTags({
+    mp3File,
+    overwrite: false,
+    markersText,
+    cover: undefined,
+    language: "eng",
+  });
+
+  expect(englishTags.comment.language).toBe("eng");
+  expect(englishTags.unsynchronisedLyrics.language).toBe("eng");
+});
