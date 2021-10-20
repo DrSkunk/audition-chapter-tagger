@@ -1,6 +1,6 @@
 {
   "name": "audition-chapter-tagger",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Add Adobe Audition chaptering tags to ID3 tags of mp3 files",
   "main": "index.js",
   "scripts": {
