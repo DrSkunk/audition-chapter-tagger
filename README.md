@@ -4,9 +4,25 @@ Add Adobe Audition chaptering tags to ID3 tags of mp3 files
 
 ## Usage
 
-You can run this with `node index.js --markers markers.csv --mp3 yourmp3file.mp3`.
+This is available as an exectuable package with
 
-Binaries are also avaiable on [the releases page](https://github.com/DrSkunk/audition-chapter-tagger/releases/).
+```
+npx audition-chapter-tagger
+```
+
+or
+
+```
+npm install --global audition-chapter-tagger
+```
+
+If cloned, you can run this with
+
+```
+node index.js --markers markers.csv --mp3 yourmp3file.mp3
+```
+
+Binaries for Linux-x64, MacOS-x64 (Intel) and Windows-x64 are also available on [the releases page](https://github.com/DrSkunk/audition-chapter-tagger/releases/).
 
 Example of an input CSV from an export from Adobe Audition:
 
