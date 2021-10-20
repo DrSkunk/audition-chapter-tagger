@@ -3,11 +3,10 @@ name: Build binaries on new tag and create a release
 on:
   push:
     tags:
-      - '*'
+      - "*"
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -16,19 +15,20 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build
-    - name: Set output
-      id: vars
-      run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-    - uses: ncipollo/release-action@v1
-      with:
-        artifacts: "build/*"
-        tag: ${{ steps.vars.outputs.tag }}
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm ci
+      - run: npm run test
+      - run: npm run build
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/*"
+          tag: ${{ steps.vars.outputs.tag }}
+          token: ${{ secrets.GITHUB_TOKEN }}
