@@ -8,9 +8,9 @@
     "test": "jest",
     "build": "npm run build:clean && npm run build:windows && npm run build:macos && npm run build:linux",
     "build:clean": "rimraf build",
-    "build:windows": "nexe -t win32-x86-14.15.3 -o build/audition-chapter-tagger_v$(project-version)_win.exe",
-    "build:macos": "nexe -t macos-14.15.3 -o build/audition-chapter-tagger_v$(project-version)_macos",
-    "build:linux": "nexe -t  linux-x64-14.15.3 -o build/audition-chapter-tagger_v$(project-version)_linux"
+    "build:windows": "pkg index.js -t node14-win-x64 -o build/audition-chapter-tagger_v$(project-version)_win.exe",
+    "build:macos": "pkg index.js -t node14-macos-x64 -o build/audition-chapter-tagger_v$(project-version)_macos",
+    "build:linux": "pkg index.js -t  node14-linux-x64 -o build/audition-chapter-tagger_v$(project-version)_linux"
   },
   "bin": {
     "audition-chapter-tagger": "index.js"
@@ -43,7 +43,7 @@
     "yargs": "^17.2.1"
   },
   "devDependencies": {
-    "nexe": "^4.0.0-beta.19",
+    "pkg": "^5.3.3",
     "project-version": "^2.0.0",
     "rimraf": "^3.0.2"
   }
