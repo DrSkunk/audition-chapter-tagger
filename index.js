@@ -9,7 +9,7 @@ const { createTags } = require("./lib/createTags");
 // Source for chaptering info: https://auphonic.com/blog/2013/07/03/chapter-marks-and-enhanced-podcasts/
 
 async function main() {
-  const { markers, mp3, cover, title, artist, overwrite, language } = yargs(
+  const { markers, mp3, cover, title, artist, year, overwrite, language } = yargs(
     hideBin(process.argv)
   )
     .option("markers", {
@@ -42,6 +42,11 @@ async function main() {
       type: "string",
       description: "Add artist",
     })
+    .option("year", {
+      alias: ["y"],
+      type: "string",
+      description: "Add recording year",
+    })
     .option("language", {
       alias: ["l"],
       type: "string",
@@ -63,6 +68,7 @@ async function main() {
     markersText,
     title,
     artist,
+    year,
     cover,
     language,
   });

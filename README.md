@@ -46,6 +46,7 @@ Options:
       --overwrite            Remove existing tags and overwrite them   [boolean]
   -t, --title                Add title                                  [string]
   -a, --artist               Add artist                                 [string]
+  -y, --year                 Add recording year                         [string]
   -l, --language             Language of the chapters. Defaults to nld. Must be
                              iso639-2                                   [string]
 ```

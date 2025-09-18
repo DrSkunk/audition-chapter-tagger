@@ -18,10 +18,12 @@ test("ffmpeg tagging", async () => {
     markersText,
     title: "Never Gonna Give You Up",
     artist: "Rick Astley",
+    year: "1987",
     cover: undefined,
   });
   expect(tags.title).toBe("Never Gonna Give You Up");
   expect(tags.artist).toBe("Rick Astley");
+  expect(tags.year).toBe("1987");
   expect(tags.chapter.length).toBe(3);
   expect(tags.chapter[0].tags.title).toBe("Intro");
   expect(tags.chapter[1].tags.title).toBe("First chapter in the list");
@@ -57,4 +59,32 @@ test("language tag", async () => {
 
   expect(englishTags.comment.language).toBe("eng");
   expect(englishTags.unsynchronisedLyrics.language).toBe("eng");
+});
+
+test("year tag", async () => {
+  const mp3File = path.resolve("test/file_example_MP3_700KB.mp3");
+  const markersText = await fs.readFile(
+    path.resolve("test/example_markers.csv"),
+    "utf-8"
+  );
+
+  const tags = await createTags({
+    mp3File,
+    overwrite: false,
+    markersText,
+    year: "2023",
+    cover: undefined,
+  });
+
+  expect(tags.year).toBe("2023");
+
+  // Test that year is not set when not provided
+  const tagsWithoutYear = await createTags({
+    mp3File,
+    overwrite: false,
+    markersText,
+    cover: undefined,
+  });
+
+  expect(tagsWithoutYear.year).toBeUndefined();
 });
